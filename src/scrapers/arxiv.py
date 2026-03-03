@@ -13,7 +13,7 @@ from src.retry import with_retry
 logger = logging.getLogger(__name__)
 
 CATEGORIES = ["cs.AI", "cs.LG", "cs.CR"]
-LOOKBACK_HOURS = 48
+LOOKBACK_HOURS = 72
 
 
 @register_scraper("arxiv")

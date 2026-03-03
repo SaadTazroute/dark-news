@@ -3,8 +3,7 @@ boto3
 jinja2
 hypothesis
 feedparser
-praw
-PyGithub
+huggingface_hub
 huggingface_hub
 requests
 arxiv

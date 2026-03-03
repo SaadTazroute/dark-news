@@ -38,12 +38,6 @@ variable "max_items" {
   default     = 30
 }
 
-variable "health_lambda_zip" {
-  description = "Path to the zipped Lambda deployment package for the /health endpoint"
-  type        = string
-  default     = "../dist/health.zip"
-}
-
 variable "agentcore_job_arn" {
   description = "ARN of the AgentCore scheduled job for the orchestrator pipeline"
   type        = string

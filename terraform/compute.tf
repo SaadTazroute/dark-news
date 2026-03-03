@@ -7,19 +7,26 @@ resource "aws_cloudwatch_log_group" "health_lambda" {
 
 # ─── Lambda — /health endpoint ───────────────────────────────────────────────
 
+data "archive_file" "health" {
+  type        = "zip"
+  source_dir  = "${path.module}/../health"
+  output_path = "${path.module}/../dist/health.zip"
+}
+
 resource "aws_lambda_function" "health" {
-  function_name = "dark-web-newsletter-health"
-  role          = aws_iam_role.lambda_exec.arn
-  runtime       = "python3.12"
-  handler       = "handler.handler"
-  filename      = var.health_lambda_zip
-  timeout       = 10
-  memory_size   = 128
+  function_name    = "dark-web-newsletter-health"
+  role             = aws_iam_role.lambda_exec.arn
+  runtime          = "python3.12"
+  handler          = "handler.handler"
+  filename         = data.archive_file.health.output_path
+  source_code_hash = data.archive_file.health.output_base64sha256
+  timeout          = 10
+  memory_size      = 128
 
   environment {
     variables = {
       RUN_HISTORY_TABLE = aws_dynamodb_table.run_history.name
-      AWS_REGION        = var.aws_region
+      APP_REGION        = var.aws_region
     }
   }
 
@@ -57,6 +64,7 @@ resource "aws_apigatewayv2_stage" "default" {
 
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.health_lambda.arn
+    format          = "$context.requestId $context.status $context.error.message"
   }
 }
 
@@ -77,13 +85,13 @@ resource "aws_cloudwatch_event_rule" "daily_pipeline" {
 }
 
 # Note: The orchestrator runs as an AgentCore job. The EventBridge rule target
-# points to the AgentCore job ARN once deployed. Placeholder target below —
-# replace with actual AgentCore job ARN after first AgentCore deployment.
+# points to the AgentCore job ARN once deployed. Set var.agentcore_job_arn after
+# first AgentCore deployment to activate the schedule.
 resource "aws_cloudwatch_event_target" "pipeline" {
+  count     = var.agentcore_job_arn != "" ? 1 : 0
   rule      = aws_cloudwatch_event_rule.daily_pipeline.name
   target_id = "NewsletterPipeline"
   arn       = var.agentcore_job_arn
 
-  # Pass the AWS region as input to the job
   input = jsonencode({ aws_region = var.aws_region })
 }

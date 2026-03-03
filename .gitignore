@@ -1,4 +1,28 @@
+# Python
+__pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
 
+# Virtual environment
+.venv/
+venv/
+
+# Terraform state (never commit these)
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/.terraform.lock.hcl
+
+# Kiro IDE
 .kiro/
-dark_web_ai_newsletter.egg-info/
+
+# Secrets — never commit
+secrets.txt
+*.env
+.env*
+
+# OS
+.DS_Store

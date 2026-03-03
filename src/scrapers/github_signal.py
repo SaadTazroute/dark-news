@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 LOOKBACK_HOURS = 48
 
 DEFAULT_REPOS = [
-    "aws/amazon-bedrock-agent-samples",
+    "aws/amazon-bedrock-samples",
     "anthropics/anthropic-sdk-python",
     "openai/openai-python",
     "huggingface/transformers",

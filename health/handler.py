@@ -11,7 +11,7 @@ from botocore.exceptions import ClientError
 logger = logging.getLogger(__name__)
 
 RUN_HISTORY_TABLE = os.environ.get("RUN_HISTORY_TABLE", "dark-web-newsletter-runs")
-AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")
+AWS_REGION = os.environ.get("APP_REGION", "us-east-1")
 
 
 def handler(event, context):

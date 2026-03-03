@@ -53,7 +53,7 @@ class HuggingFaceAgent(ScraperAgent):
     @with_retry(max_retries=3)
     def _fetch_models(self, token: Optional[str]) -> list:
         """Fetch recent models from HuggingFace Hub sorted by creation date descending."""
-        kwargs = {"sort": "createdAt", "direction": -1, "limit": FETCH_LIMIT}
+        kwargs = {"sort": "createdAt", "limit": FETCH_LIMIT}
         if token:
             kwargs["token"] = token
         return list(list_models(**kwargs))
