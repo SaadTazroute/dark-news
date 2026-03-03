@@ -1,0 +1,18 @@
+🧠 48H AHEAD OF THE CURVE — {{ date }}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{{ total_items }} signals curated from {{ groups|length }} sources.
+
+{% for group in groups %}
+━━ {{ group.source_label | upper }} ━━
+{{ group.commentary }}
+
+{% for signal in group.signals %}
+• {{ signal.title }}
+  {{ signal.summary }}
+  ↳ Why it matters: {{ signal.why_it_matters }}
+  🔗 {{ signal.url }}
+
+{% endfor %}
+{% endfor %}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generated {{ pipeline_date }}

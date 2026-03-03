@@ -1,0 +1,51 @@
+variable "aws_region" {
+  description = "AWS region to deploy into"
+  type        = string
+  default     = "us-east-1"
+}
+
+variable "schedule_expression" {
+  description = "EventBridge cron/rate expression for the daily pipeline (e.g. 'cron(0 6 * * ? *)')"
+  type        = string
+  default     = "cron(0 6 * * ? *)"
+}
+
+variable "email_sender" {
+  description = "Verified SES sender email address"
+  type        = string
+}
+
+variable "email_recipient" {
+  description = "Recipient email address for the digest"
+  type        = string
+}
+
+variable "slack_channel" {
+  description = "Slack channel to post the digest to (e.g. '#ai-digest')"
+  type        = string
+  default     = "#ai-digest"
+}
+
+variable "similarity_threshold" {
+  description = "Cosine similarity threshold for deduplication (0.0–1.0)"
+  type        = number
+  default     = 0.85
+}
+
+variable "max_items" {
+  description = "Maximum number of items to include in the digest"
+  type        = number
+  default     = 30
+}
+
+variable "health_lambda_zip" {
+  description = "Path to the zipped Lambda deployment package for the /health endpoint"
+  type        = string
+  default     = "../dist/health.zip"
+}
+
+variable "agentcore_job_arn" {
+  description = "ARN of the AgentCore scheduled job for the orchestrator pipeline"
+  type        = string
+  default     = ""
+}

@@ -1,0 +1,10 @@
+strands-agents
+boto3
+jinja2
+hypothesis
+feedparser
+praw
+PyGithub
+huggingface_hub
+requests
+arxiv

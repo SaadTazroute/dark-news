@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dark-web-ai-newsletter"
+version = "0.1.0"
+description = "Early-signal AI intelligence pipeline — 48 hours ahead of the curve"
+requires-python = ">=3.11"
+dependencies = [
+    "strands-agents",
+    "boto3",
+    "jinja2",
+    "feedparser",
+    "praw",
+    "PyGithub",
+    "huggingface_hub",
+    "requests",
+    "arxiv",
+]
+
+[project.optional-dependencies]
+test = [
+    "hypothesis",
+]
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+[tool.hypothesis]
+max_examples = 100

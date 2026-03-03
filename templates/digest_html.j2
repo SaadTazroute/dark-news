@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>48H Ahead — {{ date }}</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 680px; margin: 0 auto; padding: 24px; color: #1a1a1a; background: #fff; }
+  h1 { font-size: 20px; font-weight: 700; border-bottom: 2px solid #000; padding-bottom: 8px; }
+  .meta { color: #666; font-size: 13px; margin-bottom: 24px; }
+  h2 { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 32px; margin-bottom: 4px; border-left: 3px solid #000; padding-left: 8px; }
+  .commentary { color: #444; font-size: 14px; margin-bottom: 16px; font-style: italic; }
+  .signal { margin-bottom: 20px; padding: 12px; border: 1px solid #e5e5e5; border-radius: 4px; }
+  .signal-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .signal-summary { font-size: 13px; color: #444; margin-bottom: 6px; }
+  .signal-why { font-size: 13px; color: #1a1a1a; background: #f5f5f5; padding: 6px 8px; border-radius: 3px; margin-bottom: 6px; }
+  .signal-why strong { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .signal-link { font-size: 12px; }
+  .signal-link a { color: #0066cc; text-decoration: none; }
+  .footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid #e5e5e5; font-size: 12px; color: #999; }
+</style>
+</head>
+<body>
+<h1>🧠 48H Ahead of the Curve</h1>
+<div class="meta">{{ date }} &nbsp;·&nbsp; {{ total_items }} signals from {{ groups|length }} sources</div>
+
+{% for group in groups %}
+<h2>{{ group.source_label }}</h2>
+<div class="commentary">{{ group.commentary }}</div>
+
+{% for signal in group.signals %}
+<div class="signal">
+  <div class="signal-title">{{ signal.title }}</div>
+  <div class="signal-summary">{{ signal.summary }}</div>
+  <div class="signal-why"><strong>Why it matters:</strong> {{ signal.why_it_matters }}</div>
+  <div class="signal-link"><a href="{{ signal.url }}">{{ signal.url }}</a></div>
+</div>
+{% endfor %}
+{% endfor %}
+
+<div class="footer">Generated {{ pipeline_date }}</div>
+</body>
+</html>

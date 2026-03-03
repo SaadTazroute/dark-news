@@ -1,0 +1,4 @@
+*.pyc
+
+.kiro/
+dark_web_ai_newsletter.egg-info/
