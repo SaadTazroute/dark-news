@@ -316,7 +316,7 @@ wheels = [
 ]
 
 [[package]]
-name = "dark-web-ai-newsletter"
+name = "early-ai-newsletter"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

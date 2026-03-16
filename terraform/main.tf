@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.0"
+    }
   }
 }
 
@@ -13,7 +17,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project     = "dark-web-ai-newsletter"
+      Project     = "early-ai-newsletter"
       ManagedBy   = "terraform"
     }
   }
@@ -22,7 +26,7 @@ provider "aws" {
 # ─── DynamoDB ────────────────────────────────────────────────────────────────
 
 resource "aws_dynamodb_table" "config" {
-  name         = "dark-web-newsletter-config"
+  name         = "early-newsletter-config"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "config_key"
 
@@ -39,11 +43,11 @@ resource "aws_dynamodb_table" "config" {
     enabled = true
   }
 
-  tags = { Name = "dark-web-newsletter-config" }
+  tags = { Name = "early-newsletter-config" }
 }
 
 resource "aws_dynamodb_table" "run_history" {
-  name         = "dark-web-newsletter-runs"
+  name         = "early-newsletter-runs"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "run_date"
   range_key    = "run_id"
@@ -71,17 +75,17 @@ resource "aws_dynamodb_table" "run_history" {
     enabled        = true
   }
 
-  tags = { Name = "dark-web-newsletter-runs" }
+  tags = { Name = "early-newsletter-runs" }
 }
 
 # ─── Secrets Manager ─────────────────────────────────────────────────────────
 
 resource "aws_secretsmanager_secret" "credentials" {
-  name                    = "dark-web-newsletter/credentials"
+  name                    = "early-newsletter/credentials"
   description             = "API keys and OAuth tokens for the newsletter pipeline"
   recovery_window_in_days = 7
 
-  tags = { Name = "dark-web-newsletter-credentials" }
+  tags = { Name = "early-newsletter-credentials" }
 }
 
 resource "aws_secretsmanager_secret_version" "credentials_placeholder" {
@@ -118,7 +122,7 @@ data "aws_iam_policy_document" "lambda_assume" {
 }
 
 resource "aws_iam_role" "lambda_exec" {
-  name               = "dark-web-newsletter-lambda"
+  name               = "early-newsletter-lambda"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume.json
 }
 
@@ -186,10 +190,20 @@ data "aws_iam_policy_document" "lambda_policy" {
     actions = ["cloudwatch:PutMetricData"]
     resources = ["*"]
   }
+
+  statement {
+    sid    = "AgentCore"
+    effect = "Allow"
+    actions = [
+      "bedrock-agentcore:InvokeAgentRuntime",
+      "bedrock-agentcore-control:ListAgentRuntimes",
+    ]
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_role_policy" "lambda_policy" {
-  name   = "dark-web-newsletter-lambda-policy"
+  name   = "early-newsletter-lambda-policy"
   role   = aws_iam_role.lambda_exec.id
   policy = data.aws_iam_policy_document.lambda_policy.json
 }

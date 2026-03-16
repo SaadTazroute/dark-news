@@ -1,7 +1,7 @@
 # ─── CloudWatch Log Groups ────────────────────────────────────────────────────
 
 resource "aws_cloudwatch_log_group" "health_lambda" {
-  name              = "/aws/lambda/dark-web-newsletter-health"
+  name              = "/aws/lambda/early-newsletter-health"
   retention_in_days = 180
 }
 
@@ -14,7 +14,7 @@ data "archive_file" "health" {
 }
 
 resource "aws_lambda_function" "health" {
-  function_name    = "dark-web-newsletter-health"
+  function_name    = "early-newsletter-health"
   role             = aws_iam_role.lambda_exec.arn
   runtime          = "python3.12"
   handler          = "handler.handler"
@@ -40,7 +40,7 @@ resource "aws_lambda_function" "health" {
 # ─── API Gateway — /health ────────────────────────────────────────────────────
 
 resource "aws_apigatewayv2_api" "health" {
-  name          = "dark-web-newsletter-health"
+  name          = "early-newsletter-health"
   protocol_type = "HTTP"
 }
 
@@ -79,19 +79,9 @@ resource "aws_lambda_permission" "apigw_health" {
 # ─── EventBridge — daily pipeline schedule ───────────────────────────────────
 
 resource "aws_cloudwatch_event_rule" "daily_pipeline" {
-  name                = "dark-web-newsletter-daily"
+  name                = "early-newsletter-daily"
   description         = "Triggers the newsletter pipeline daily"
   schedule_expression = var.schedule_expression
 }
 
-# Note: The orchestrator runs as an AgentCore job. The EventBridge rule target
-# points to the AgentCore job ARN once deployed. Set var.agentcore_job_arn after
-# first AgentCore deployment to activate the schedule.
-resource "aws_cloudwatch_event_target" "pipeline" {
-  count     = var.agentcore_job_arn != "" ? 1 : 0
-  rule      = aws_cloudwatch_event_rule.daily_pipeline.name
-  target_id = "NewsletterPipeline"
-  arn       = var.agentcore_job_arn
 
-  input = jsonencode({ aws_region = var.aws_region })
-}

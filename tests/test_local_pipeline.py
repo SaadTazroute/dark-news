@@ -41,7 +41,7 @@ def test_full_pipeline():
         from src.orchestrator import OrchestratorAgent
 
         config = load_config()
-        result = OrchestratorAgent().run_pipeline(aws_region=config.get("aws_region", "us-east-1"))
+        result = OrchestratorAgent().run_pipeline(aws_region=config.get("aws_region", "eu-west-1"))
 
         print(f"  run_id:           {result.run_id}")
         print(f"  items_scraped:    {result.items_scraped}")

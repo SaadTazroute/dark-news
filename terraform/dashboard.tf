@@ -10,7 +10,7 @@ locals {
         properties = {
           title  = "Pipeline Duration (seconds)"
           region = var.aws_region
-          metrics = [["DarkWebAINewsletter", "PipelineDuration"]]
+          metrics = [["EarlyAINewsletter", "PipelineDuration"]]
           view   = "timeSeries"
           stat   = "Average"
           period = 86400
@@ -26,11 +26,11 @@ locals {
           title  = "Items Scraped per Source"
           region = var.aws_region
           metrics = [
-            ["DarkWebAINewsletter", "ItemsScraped", "Source", "arxiv"],
-            ["DarkWebAINewsletter", "ItemsScraped", "Source", "github"],
-            ["DarkWebAINewsletter", "ItemsScraped", "Source", "huggingface"],
-            ["DarkWebAINewsletter", "ItemsScraped", "Source", "reddit"],
-            ["DarkWebAINewsletter", "ItemsScraped", "Source", "aws_changelog"],
+            ["EarlyAINewsletter", "ItemsScraped", "Source", "arxiv"],
+            ["EarlyAINewsletter", "ItemsScraped", "Source", "github"],
+            ["EarlyAINewsletter", "ItemsScraped", "Source", "huggingface"],
+            ["EarlyAINewsletter", "ItemsScraped", "Source", "reddit"],
+            ["EarlyAINewsletter", "ItemsScraped", "Source", "aws_changelog"],
           ]
           view   = "timeSeries"
           stat   = "Sum"
@@ -47,8 +47,8 @@ locals {
           title  = "Items After Filter & In Digest"
           region = var.aws_region
           metrics = [
-            ["DarkWebAINewsletter", "ItemsAfterFilter"],
-            ["DarkWebAINewsletter", "ItemsInDigest"],
+            ["EarlyAINewsletter", "ItemsAfterFilter"],
+            ["EarlyAINewsletter", "ItemsInDigest"],
           ]
           view   = "timeSeries"
           stat   = "Sum"
@@ -65,10 +65,10 @@ locals {
           title  = "Delivery Success / Failure"
           region = var.aws_region
           metrics = [
-            ["DarkWebAINewsletter", "DeliverySuccess", "Channel", "slack"],
-            ["DarkWebAINewsletter", "DeliverySuccess", "Channel", "email"],
-            ["DarkWebAINewsletter", "DeliveryFailure", "Channel", "slack"],
-            ["DarkWebAINewsletter", "DeliveryFailure", "Channel", "email"],
+            ["EarlyAINewsletter", "DeliverySuccess", "Channel", "slack"],
+            ["EarlyAINewsletter", "DeliverySuccess", "Channel", "email"],
+            ["EarlyAINewsletter", "DeliveryFailure", "Channel", "slack"],
+            ["EarlyAINewsletter", "DeliveryFailure", "Channel", "email"],
           ]
           view   = "timeSeries"
           stat   = "Sum"
@@ -85,8 +85,8 @@ locals {
           title  = "Lambda /health — Errors & Duration"
           region = var.aws_region
           metrics = [
-            ["AWS/Lambda", "Errors", "FunctionName", "dark-web-newsletter-health"],
-            ["AWS/Lambda", "Duration", "FunctionName", "dark-web-newsletter-health"],
+            ["AWS/Lambda", "Errors", "FunctionName", "early-newsletter-health"],
+            ["AWS/Lambda", "Duration", "FunctionName", "early-newsletter-health"],
           ]
           view   = "timeSeries"
           stat   = "Sum"
@@ -120,7 +120,7 @@ locals {
         properties = {
           title  = "Last Failing Pipeline Requests"
           region = var.aws_region
-          query  = "SOURCE '/aws/lambda/dark-web-newsletter-health' | fields @timestamp, error_message, agent_name | filter level = 'ERROR' | sort @timestamp desc | limit 20"
+          query  = "SOURCE '/aws/lambda/early-newsletter-health' | fields @timestamp, error_message, agent_name | filter level = 'ERROR' | sort @timestamp desc | limit 20"
           view   = "table"
         }
       },
@@ -129,6 +129,6 @@ locals {
 }
 
 resource "aws_cloudwatch_dashboard" "main" {
-  dashboard_name = "dark-web-ai-newsletter"
+  dashboard_name = "early-ai-newsletter"
   dashboard_body = local.dashboard_body
 }

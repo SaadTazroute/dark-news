@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWS region to deploy into"
   type        = string
-  default     = "us-east-1"
+  default     = "eu-west-1"
 }
 
 variable "schedule_expression" {
@@ -13,11 +13,13 @@ variable "schedule_expression" {
 variable "email_sender" {
   description = "Verified SES sender email address"
   type        = string
+  default     = "chris.moltisanti667@gmail.com"
 }
 
 variable "email_recipient" {
   description = "Recipient email address for the digest"
   type        = string
+  default     = "chris.moltisanti667@gmail.com"
 }
 
 variable "slack_channel" {
@@ -38,8 +40,4 @@ variable "max_items" {
   default     = 30
 }
 
-variable "agentcore_job_arn" {
-  description = "ARN of the AgentCore scheduled job for the orchestrator pipeline"
-  type        = string
-  default     = ""
-}
+

@@ -36,7 +36,7 @@ class RelevanceFilter:
 
     def __init__(self, config: dict = None):
         config = config or {}
-        region = config.get("aws_region", "us-east-1")
+        region = config.get("aws_region", "eu-west-1")
         self._bedrock = boto3.client("bedrock-runtime", region_name=region)
 
     def compute_embeddings(self, items: List[SignalItem]) -> List[list]:

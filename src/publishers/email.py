@@ -21,7 +21,7 @@ class EmailPublisher(PublisherChannel):
     def deliver(self, digest: Digest, config: dict) -> bool:
         sender = config.get("email_sender", "")
         recipient = config.get("email_recipient", "")
-        aws_region = config.get("aws_region", "us-east-1")
+        aws_region = config.get("aws_region", "eu-west-1")
 
         if not sender or not recipient:
             logger.error("EmailPublisher: email_sender or email_recipient not configured")

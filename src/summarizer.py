@@ -74,11 +74,11 @@ def build_prompt(groups: dict) -> str:
 
 
 @with_retry(max_retries=2, base_wait=2, max_wait=30)
-def invoke_claude(prompt: str, aws_region: str = "us-east-1") -> str:
+def invoke_claude(prompt: str, aws_region: str = "eu-west-1") -> str:
     """Call Bedrock Claude 3.5 Sonnet and return the response text."""
     bedrock = boto3.client("bedrock-runtime", region_name=aws_region)
     response = bedrock.invoke_model(
-        modelId="anthropic.claude-3-5-sonnet-20241022-v2:0",
+        modelId="anthropic.claude-haiku-4-5-20251001-v1:0",
         body=json.dumps({
             "anthropic_version": "bedrock-2023-05-31",
             "max_tokens": 4096,
@@ -130,7 +130,7 @@ class SummarizerAgent:
 
     def summarize(self, items: List[SignalItem], config: dict) -> Digest:
         """Full pipeline: group → prompt → invoke Claude → render templates."""
-        aws_region = config.get("aws_region", "us-east-1")
+        aws_region = config.get("aws_region", "eu-west-1")
         groups = group_by_source(items)
 
         if not groups:

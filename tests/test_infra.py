@@ -7,7 +7,7 @@ Usage:
     python tests/test_infra.py
 
     # Override region or health URL:
-    HEALTH_URL=https://xxx.execute-api.us-east-1.amazonaws.com/health python tests/test_infra.py
+    HEALTH_URL=https://xxx.execute-api.eu-west-1.amazonaws.com/health python tests/test_infra.py
 """
 
 import json
@@ -21,11 +21,11 @@ import requests
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")
+AWS_REGION = os.environ.get("AWS_REGION", "eu-west-1")
 HEALTH_URL = os.environ.get("HEALTH_URL", "")  # auto-detected from terraform output if empty
-SECRET_NAME = "dark-web-newsletter/credentials"
-CONFIG_TABLE = "dark-web-newsletter-config"
-RUN_TABLE = "dark-web-newsletter-runs"
+SECRET_NAME = "early-newsletter/credentials"
+CONFIG_TABLE = "early-newsletter-config"
+RUN_TABLE = "early-newsletter-runs"
 
 
 def get_health_url() -> str:
@@ -94,7 +94,7 @@ def check_bedrock() -> bool:
     print("\n=== Bedrock model access ===")
     bedrock = boto3.client("bedrock", region_name=AWS_REGION)
     required = [
-        "anthropic.claude-3-5-sonnet-20241022-v2:0",
+        "anthropic.claude-haiku-4-5-20251001-v1:0",
         "amazon.titan-embed-text-v2:0",
     ]
     ok = True

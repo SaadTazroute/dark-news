@@ -21,7 +21,7 @@ terraform apply -var="email_sender=chris.moltisanti667@egmail.com" -var="email_r
 
 # 3. Populate secrets (replace REPLACE_ME values)
 aws secretsmanager put-secret-value \
-  --secret-id dark-web-newsletter/credentials \
+  --secret-id early-newsletter/credentials \
   --secret-string '{"github_token":"ghp_...","reddit_client_id":"...","reddit_client_secret":"...","slack_token":"xoxb-..."}'
 
 # 4. Deploy the orchestrator to AgentCore (see AgentCore deployment guide)
@@ -123,13 +123,13 @@ After `terraform apply`, update the Secrets Manager secret with real values:
 
 ```bash
 aws secretsmanager put-secret-value \
-  --secret-id dark-web-newsletter/credentials \
+  --secret-id early-newsletter/credentials \
   --secret-string '{"github_token":"ghp_...","reddit_client_id":"...","reddit_client_secret":"...","slack_token":"xoxb-..."}'
 ```
 
 ### Non-sensitive config (DynamoDB)
 
-Optional overrides stored in the `dark-web-newsletter-config` DynamoDB table:
+Optional overrides stored in the `early-newsletter-config` DynamoDB table:
 
 | config_key | Default | Description |
 |------------|---------|-------------|
@@ -160,9 +160,9 @@ That's it — the orchestrator picks it up automatically.
 
 ## Observability
 
-- **Logs**: CloudWatch Logs at `/aws/lambda/dark-web-newsletter-health` (180-day retention)
-- **Metrics**: Custom namespace `DarkWebAINewsletter` — pipeline duration, items per source, delivery success/failure
-- **Dashboard**: `dark-web-ai-newsletter` CloudWatch Dashboard (URL in Terraform outputs)
+- **Logs**: CloudWatch Logs at `/aws/lambda/early-newsletter-health` (180-day retention)
+- **Metrics**: Custom namespace `EarlyAINewsletter` — pipeline duration, items per source, delivery success/failure
+- **Dashboard**: `early-ai-newsletter` CloudWatch Dashboard (URL in Terraform outputs)
 - **Health**: `GET /health` returns last pipeline run status, item counts, and any errors
 - **Tracing**: AWS X-Ray active tracing on all Lambda functions
 

@@ -10,8 +10,8 @@ from botocore.exceptions import ClientError
 logger = logging.getLogger(__name__)
 
 # Secrets Manager secret name (set via env var or default)
-SECRET_NAME = os.environ.get("NEWSLETTER_SECRET_NAME", "dark-web-newsletter/credentials")
-CONFIG_TABLE = os.environ.get("NEWSLETTER_CONFIG_TABLE", "dark-web-newsletter-config")
+SECRET_NAME = os.environ.get("NEWSLETTER_SECRET_NAME", "early-newsletter/credentials")
+CONFIG_TABLE = os.environ.get("NEWSLETTER_CONFIG_TABLE", "early-newsletter-config")
 
 
 def _load_secrets(aws_region: str) -> dict:
@@ -45,7 +45,7 @@ def _load_dynamo_config(aws_region: str) -> dict:
     return config
 
 
-def load_config(aws_region: str = "us-east-1") -> dict:
+def load_config(aws_region: str = "eu-west-1") -> dict:
     """Load and merge all configuration for a pipeline run.
 
     Secrets Manager credentials take precedence over DynamoDB config.

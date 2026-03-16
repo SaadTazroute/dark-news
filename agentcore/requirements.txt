@@ -1,0 +1,8 @@
+bedrock-agentcore
+strands-agents
+boto3
+jinja2
+feedparser
+huggingface_hub
+requests
+arxiv

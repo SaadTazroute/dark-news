@@ -17,7 +17,7 @@ LOOKBACK_HOURS = 48
 DEFAULT_VELOCITY_THRESHOLD = 1.0  # comments per hour
 FETCH_LIMIT = 100
 
-HEADERS = {"User-Agent": "dark-web-ai-newsletter/1.0 (no-auth public API)"}
+HEADERS = {"User-Agent": "early-ai-newsletter/1.0 (no-auth public API)"}
 
 
 def compute_velocity(created_utc: float, num_comments: int) -> float:

@@ -20,13 +20,13 @@ import src.publishers  # noqa: F401
 
 logger = logging.getLogger(__name__)
 
-RUN_HISTORY_TABLE = "dark-web-newsletter-runs"
+RUN_HISTORY_TABLE = "early-newsletter-runs"
 
 
 class OrchestratorAgent:
     """Coordinates the daily scrape → filter → summarize → publish pipeline."""
 
-    def run_pipeline(self, aws_region: str = "us-east-1") -> PipelineResult:
+    def run_pipeline(self, aws_region: str = "eu-west-1") -> PipelineResult:
         run_id = str(uuid.uuid4())
         start_time = datetime.now(timezone.utc)
         logger.info(f"Pipeline run {run_id} started")
@@ -163,7 +163,7 @@ class OrchestratorAgent:
 
     def _record_run(self, result: PipelineResult, config: dict) -> None:
         """Write run history to DynamoDB (best-effort)."""
-        aws_region = config.get("aws_region", "us-east-1")
+        aws_region = config.get("aws_region", "eu-west-1")
         try:
             ddb = boto3.client("dynamodb", region_name=aws_region)
             duration = (result.end_time - result.start_time).total_seconds()

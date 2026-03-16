@@ -9,10 +9,10 @@ from src.models import PipelineResult
 
 logger = logging.getLogger(__name__)
 
-NAMESPACE = "DarkWebAINewsletter"
+NAMESPACE = "EarlyAINewsletter"
 
 
-def emit_metrics(result: PipelineResult, aws_region: str = "us-east-1") -> None:
+def emit_metrics(result: PipelineResult, aws_region: str = "eu-west-1") -> None:
     """Emit CloudWatch metrics from a PipelineResult.
 
     Metrics emitted:
